@@ -1,41 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Basic Meta -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Apni Holidays | Explore Your Next Adventure</title>
-  <meta name="description" content="Book your next vacation with Apni Holidays. Discover affordable and exciting holiday packages across India.">
-  <meta name="keywords" content="holiday packages, travel India, vacation, Apni Holidays, tours, adventure trips, beach holidays">
-  <meta name="author" content="Apni Holidays Team" />
-  <link rel="canonical" href="https://rmoharana038.github.io/apni-holidays/" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Apni Holidays | Explore Your Next Adventure" />
-  <meta property="og:description" content="Explore top destinations and affordable packages with Apni Holidays." />
-  <meta property="og:image" content="assets/hero.jpg" />
-  <meta property="og:url" content="https://rmoharana038.github.io/apni-holidays/" />
-  <meta property="og:type" content="website" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Apni Holidays | Explore Your Next Adventure" />
-  <meta name="twitter:description" content="Explore top destinations and affordable packages with Apni Holidays." />
-  <meta name="twitter:image" content="assets/hero.jpg" />
-
-  <!-- Favicon & Manifest -->
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="assets/favicon.png" />
   <link rel="manifest" href="manifest.json" />
-
-  <!-- Preconnects -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-
-  <!-- Styles & AOS -->
-  <link rel="stylesheet" href="style.css" />
+  <!-- AOS Scroll Animation CSS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-
-  <!-- Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
@@ -68,7 +41,7 @@
     </div>
   </section>
 
-  <!-- Contact Section with Form -->
+  <!-- Contact Section (Formspree Integrated) -->
   <section class="contact" id="contact" data-aos="fade-up">
     <div class="container">
       <h2>Contact Us</h2>
@@ -91,12 +64,12 @@
   <!-- Back to Top Button -->
   <button id="backToTop" title="Back to Top">↑</button>
 
-  <!-- JS Scripts -->
-  <script src="script.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer></script>
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init();
-
+    // Highlight active nav link
     document.querySelectorAll('.nav-links a').forEach(link => {
       if (link.href === window.location.href || window.location.href.includes(link.getAttribute('href'))) {
         link.classList.add('active');
