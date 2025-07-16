@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Manali Adventure Trip",
+    "description": "Explore the scenic beauty of Himachal with trekking, skiing, and river rafting.",
+    "price": 12500,
+    "image": "assets/manali.jpg"
+  },
+  {
+    "title": "Goa Beach Vacation",
+    "description": "Relax on the sandy beaches of Goa with vibrant nightlife and water sports.",
+    "price": 14999,
+    "image": "assets/goa.jpg"
+  },
+  {
+    "title": "Kerala Backwaters",
+    "description": "Experience the calm and nature of Kerala with a houseboat cruise.",
+    "price": 13500,
+    "image": "assets/kerala.jpg"
+  },
+  {
+    "title": "Rajasthan Heritage Tour",
+    "description": "Dive into the rich culture, forts, and palaces of Jaipur, Jodhpur, and Udaipur.",
+    "price": 15999,
+    "image": "assets/rajasthan.jpg"
+  }
+]
