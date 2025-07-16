@@ -3,20 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - Manage Packages | Apni Holidays</title>
-  <meta name="description" content="Admin dashboard to manage, add, edit and export travel packages on Apni Holidays.">
-  <meta name="robots" content="noindex" />
+  <title>Admin - Manage Packages</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="assets/favicon.png" />
   <link rel="manifest" href="manifest.json" />
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log('Service Worker Registered'))
-        .catch(err => console.error('SW registration failed', err));
-    }
-  </script>
 </head>
 <body>
 
@@ -102,8 +93,8 @@
         const card = document.createElement('div');
         card.className = 'package-card';
         card.setAttribute('data-aos', 'fade-up');
-        card.innerHTML = `
-          <img src="${pkg.image}" alt="${pkg.title}" loading="lazy" onerror="this.src='assets/fallback.jpg'" />
+        card.innerHTML = 
+          <img src="${pkg.image}" alt="${pkg.title}" onerror="this.src='assets/fallback.jpg'" />
           <div class="content">
             <label>Title:</label>
             <input type="text" value="${pkg.title}" class="admin-input" id="title-${index}" />
@@ -118,19 +109,19 @@
               <button onclick="deletePackage(${index})" class="btn-primary" style="background: #e74c3c; color: white; margin-left: 0.5rem;">Delete</button>
             </div>
           </div>
-        `;
+        ;
         adminList.appendChild(card);
       });
     }
 
     function savePackage(index) {
-      const title = document.getElementById(`title-${index}`).value;
-      const desc = document.getElementById(`desc-${index}`).value;
-      const price = document.getElementById(`price-${index}`).value;
-      const image = document.getElementById(`img-${index}`).value;
+      const title = document.getElementById(title-${index}).value;
+      const desc = document.getElementById(desc-${index}).value;
+      const price = document.getElementById(price-${index}).value;
+      const image = document.getElementById(img-${index}).value;
 
       packages[index] = { title, description: desc, price, image };
-      alert(`✅ Package ${index + 1} updated locally.`);
+      alert(✅ Package ${index + 1} updated locally.);
     }
 
     function deletePackage(index) {
@@ -142,10 +133,10 @@
     }
 
     function addPackage() {
-      const title = document.getElementById('new-title').value.trim();
-      const desc = document.getElementById('new-desc').value.trim();
-      const price = document.getElementById('new-price').value.trim();
-      const image = document.getElementById('new-img').value.trim();
+      const title = document.getElementById('new-title').value;
+      const desc = document.getElementById('new-desc').value;
+      const price = document.getElementById('new-price').value;
+      const image = document.getElementById('new-img').value;
 
       if (!title || !desc || !price || !image) {
         alert('❌ Please fill all fields to add a package.');
