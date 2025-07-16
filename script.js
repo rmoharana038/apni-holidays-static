@@ -30,14 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
           const card = document.createElement('div');
           card.classList.add('package-card');
           card.setAttribute('data-aos', 'fade-up');
-          card.innerHTML = 
+          card.innerHTML = `
             <img src="${pkg.image}" alt="${pkg.title}" onerror="this.src='assets/fallback.jpg';" />
             <div class="content">
               <h3>${pkg.title}</h3>
               <p>${pkg.description}</p>
               <div class="price">₹${pkg.price}</div>
             </div>
-          ;
+          `;
           container.appendChild(card);
         });
       } else {
