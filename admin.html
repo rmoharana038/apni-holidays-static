@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin - Manage Packages</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/favicon.png" />
+  <link rel="manifest" href="manifest.json" />
+  <!-- AOS Scroll Animation CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">Apni Holidays</a>
+      <div class="hamburger" id="hamburger">&#9776;</div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="packages.html">Packages</a></li>
+        <li><a href="admin.html" class="active">Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Admin Section -->
+  <section class="packages admin-section" data-aos="fade-up">
+    <div class="container">
+      <h1>Manage Packages</h1>
+      <div id="admin-package-list" class="package-list"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 Apni Holidays. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="backToTop" title="Back to Top">↑</button>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const adminList = document.getElementById('admin-package-list');
+      fetch('packages.json')
+        .then(res => res.json())
+        .then(packages => {
+          packages.forEach((pkg, index) => {
+            const card = document.createElement('div');
+            card.className = 'package-card';
+            card.setAttribute('data-aos', 'fade-up');
+            card.innerHTML = `
+              <img src="${pkg.image}" alt="${pkg.title}" onerror="this.src='assets/fallback.jpg'" />
+              <div class="content">
+                <label>Title:</label>
+                <input type="text" value="${pkg.title}" class="admin-input" id="title-${index}" />
+                <label>Description:</label>
+                <textarea class="admin-input" id="desc-${index}">${pkg.description}</textarea>
+                <label>Price (₹):</label>
+                <input type="number" value="${pkg.price}" class="admin-input" id="price-${index}" />
+                <label>Image URL:</label>
+                <input type="text" value="${pkg.image}" class="admin-input" id="img-${index}" />
+                <button onclick="savePackage(${index})" class="btn-primary">Save</button>
+              </div>
+            `;
+            adminList.appendChild(card);
+          });
+        })
+        .catch(() => {
+          adminList.innerHTML = '<p>Failed to load packages.</p>';
+        });
+    });
+
+    function savePackage(index) {
+      const title = document.getElementById(`title-${index}`).value;
+      const desc = document.getElementById(`desc-${index}`).value;
+      const price = document.getElementById(`price-${index}`).value;
+      const image = document.getElementById(`img-${index}`).value;
+
+      alert(`Package ${index + 1} updated locally:
+Title: ${title}
+Description: ${desc}
+Price: ₹${price}
+Image URL: ${image}
+
+⚠️ NOTE: Changes are not permanent unless you update packages.json manually.`);
+    }
+
+    // Highlight active nav link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      if (link.href === window.location.href || window.location.href.includes(link.getAttribute('href'))) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>
