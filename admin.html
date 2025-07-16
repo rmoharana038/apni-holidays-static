@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - Manage Packages</title>
+  <title>Admin - Manage Packages | Apni Holidays</title>
+  <meta name="description" content="Admin dashboard to manage, add, edit and export travel packages on Apni Holidays.">
+  <meta name="robots" content="noindex" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="assets/favicon.png" />
   <link rel="manifest" href="manifest.json" />
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('Service Worker Registered'))
+        .catch(err => console.error('SW registration failed', err));
+    }
+  </script>
 </head>
 <body>
 
@@ -94,7 +103,7 @@
         card.className = 'package-card';
         card.setAttribute('data-aos', 'fade-up');
         card.innerHTML = `
-          <img src="${pkg.image}" alt="${pkg.title}" onerror="this.src='assets/fallback.jpg'" />
+          <img src="${pkg.image}" alt="${pkg.title}" loading="lazy" onerror="this.src='assets/fallback.jpg'" />
           <div class="content">
             <label>Title:</label>
             <input type="text" value="${pkg.title}" class="admin-input" id="title-${index}" />
@@ -133,10 +142,10 @@
     }
 
     function addPackage() {
-      const title = document.getElementById('new-title').value;
-      const desc = document.getElementById('new-desc').value;
-      const price = document.getElementById('new-price').value;
-      const image = document.getElementById('new-img').value;
+      const title = document.getElementById('new-title').value.trim();
+      const desc = document.getElementById('new-desc').value.trim();
+      const price = document.getElementById('new-price').value.trim();
+      const image = document.getElementById('new-img').value.trim();
 
       if (!title || !desc || !price || !image) {
         alert('❌ Please fill all fields to add a package.');
