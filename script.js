@@ -6,8 +6,13 @@ document.getElementById('hamburger').addEventListener('click', () => {
 // Back to Top button logic
 const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
-  backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+  if (window.scrollY > 300) {
+    backToTop.style.display = 'block';
+  } else {
+    backToTop.style.display = 'none';
+  }
 });
+
 backToTop.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
@@ -25,14 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
           const card = document.createElement('div');
           card.classList.add('package-card');
           card.setAttribute('data-aos', 'fade-up');
-          card.innerHTML = `
-            <img src="${pkg.image}" alt="${pkg.title}" loading="lazy" onerror="this.src='assets/fallback.jpg';" />
+          card.innerHTML = 
+            <img src="${pkg.image}" alt="${pkg.title}" onerror="this.src='assets/fallback.jpg';" />
             <div class="content">
               <h3>${pkg.title}</h3>
               <p>${pkg.description}</p>
               <div class="price">₹${pkg.price}</div>
             </div>
-          `;
+          ;
           container.appendChild(card);
         });
       } else {
