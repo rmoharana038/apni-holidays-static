@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="assets/favicon.png" />
   <link rel="manifest" href="manifest.json" />
+  <!-- AOS Scroll Animation CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
@@ -19,9 +21,10 @@
 
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="container">
+    <div class="container nav-container">
       <a href="index.html" class="logo">Apni Holidays</a>
-      <ul class="nav-links">
+      <div class="hamburger" id="hamburger">&#9776;</div>
+      <ul class="nav-links" id="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="packages.html">Packages</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -30,7 +33,7 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="hero" data-aos="fade-up">
     <div class="hero-content">
       <h1>Explore Your Next Adventure</h1>
       <p>Discover beautiful destinations with Apni Holidays. Book your dream vacation now!</p>
@@ -39,7 +42,7 @@
   </section>
 
   <!-- Contact Section -->
-  <section class="contact" id="contact">
+  <section class="contact" id="contact" data-aos="fade-up">
     <div class="container">
       <h2>Contact Us</h2>
       <p>Email: contact@apniholidays.com</p>
@@ -54,8 +57,15 @@
     </div>
   </footer>
 
+  <!-- Back to Top Button -->
+  <button id="backToTop" title="Back to Top">↑</button>
+
+  <!-- Scripts -->
   <script src="script.js"></script>
+  <!-- AOS JS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
+    AOS.init();
     // Highlight active nav link
     document.querySelectorAll('.nav-links a').forEach(link => {
       if (link.href === window.location.href || window.location.href.includes(link.getAttribute('href'))) {
