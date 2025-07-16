@@ -6,13 +6,8 @@ document.getElementById('hamburger').addEventListener('click', () => {
 // Back to Top button logic
 const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) {
-    backToTop.style.display = 'block';
-  } else {
-    backToTop.style.display = 'none';
-  }
+  backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
 });
-
 backToTop.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
@@ -31,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
           card.classList.add('package-card');
           card.setAttribute('data-aos', 'fade-up');
           card.innerHTML = `
-            <img src="${pkg.image}" alt="${pkg.title}" onerror="this.src='assets/fallback.jpg';" />
+            <img src="${pkg.image}" alt="${pkg.title}" loading="lazy" onerror="this.src='assets/fallback.jpg';" />
             <div class="content">
               <h3>${pkg.title}</h3>
               <p>${pkg.description}</p>
