@@ -55,5 +55,13 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    // Highlight active nav link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      if (link.href === window.location.href || window.location.href.includes(link.getAttribute('href'))) {
+        link.classList.add('active');
+      }
+    });
+  </script>
 </body>
 </html>
