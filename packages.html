@@ -1,14 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Basic Meta -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Packages - Apni Holidays</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Browse our curated holiday packages including beaches, hills, heritage and adventure destinations across India.">
+  <meta name="keywords" content="travel packages, India holidays, beach trips, adventure tours, Apni Holidays, vacation deals">
+  <meta name="author" content="Apni Holidays" />
+  <link rel="canonical" href="https://rmoharana038.github.io/apni-holidays/packages.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Packages - Apni Holidays" />
+  <meta property="og:description" content="Book from our wide range of exciting and affordable travel packages across India." />
+  <meta property="og:image" content="assets/hero.jpg" />
+  <meta property="og:url" content="https://rmoharana038.github.io/apni-holidays/packages.html" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Packages - Apni Holidays" />
+  <meta name="twitter:description" content="Book from our wide range of exciting and affordable travel packages across India." />
+  <meta name="twitter:image" content="assets/hero.jpg" />
+
+  <!-- Favicon & Manifest -->
   <link rel="icon" href="assets/favicon.png" />
   <link rel="manifest" href="manifest.json" />
-  <!-- AOS Scroll Animation CSS -->
+
+  <!-- Preconnects -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <!-- Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
@@ -53,12 +80,10 @@
   <button id="backToTop" title="Back to Top">↑</button>
 
   <!-- Scripts -->
-  <script src="script.js"></script>
-  <!-- AOS JS -->
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="script.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer></script>
   <script>
     AOS.init();
-    // Highlight active nav link
     document.querySelectorAll('.nav-links a').forEach(link => {
       if (link.href === window.location.href || window.location.href.includes(link.getAttribute('href'))) {
         link.classList.add('active');
