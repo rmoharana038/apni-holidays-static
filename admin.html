@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="assets/favicon.png" />
   <link rel="manifest" href="manifest.json" />
-  <!-- AOS Scroll Animation CSS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
 </head>
 <body>
@@ -35,7 +34,7 @@
       <hr style="margin: 3rem 0; border-color: #444" />
 
       <h2>Add New Package</h2>
-      <div class="package-card" style="margin-top: 1rem;" data-aos="fade-up">
+      <div class="package-card" data-aos="fade-up">
         <div class="content">
           <label>Title:</label>
           <input type="text" id="new-title" class="admin-input" placeholder="Enter title" />
@@ -48,6 +47,10 @@
           <button onclick="addPackage()" class="btn-primary">Add Package</button>
         </div>
       </div>
+
+      <hr style="margin: 3rem 0; border-color: #444" />
+
+      <button onclick="exportPackages()" class="btn-primary" style="width: 100%; background: green; color: white;">💾 Download Updated packages.json</button>
     </div>
   </section>
 
@@ -118,15 +121,14 @@
       const image = document.getElementById(`img-${index}`).value;
 
       packages[index] = { title, description: desc, price, image };
-
-      alert(`✅ Package ${index + 1} updated locally.\n⚠️ Changes won't be saved permanently unless you manually update packages.json`);
+      alert(`✅ Package ${index + 1} updated locally.`);
     }
 
     function deletePackage(index) {
       if (confirm("Are you sure you want to delete this package?")) {
         packages.splice(index, 1);
         renderPackages();
-        alert("🗑️ Package deleted locally.\n⚠️ Remember to update packages.json manually.");
+        alert("🗑️ Package deleted locally.");
       }
     }
 
@@ -144,13 +146,22 @@
       packages.push({ title, description: desc, price, image });
       renderPackages();
 
-      // Clear input fields
       document.getElementById('new-title').value = '';
       document.getElementById('new-desc').value = '';
       document.getElementById('new-price').value = '';
       document.getElementById('new-img').value = '';
 
-      alert("✅ Package added locally.\n⚠️ Update packages.json manually to persist changes.");
+      alert("✅ Package added locally.");
+    }
+
+    function exportPackages() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(packages, null, 2));
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", "packages.json");
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      dlAnchor.remove();
     }
 
     // Highlight active nav link
