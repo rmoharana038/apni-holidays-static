@@ -41,12 +41,16 @@
     </div>
   </section>
 
-  <!-- Contact Section -->
+  <!-- Contact Section (Formspree Integrated) -->
   <section class="contact" id="contact" data-aos="fade-up">
     <div class="container">
       <h2>Contact Us</h2>
-      <p>Email: contact@apniholidays.com</p>
-      <p>Phone: +91-9876543210</p>
+      <form action="https://formspree.io/f/mnnzqwjl" method="POST" class="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="_replyto" placeholder="Your Email" required />
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn-primary">Send Message</button>
+      </form>
     </div>
   </section>
 
@@ -62,7 +66,6 @@
 
   <!-- Scripts -->
   <script src="script.js"></script>
-  <!-- AOS JS -->
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init();
