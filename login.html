@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Modern Glassmorphism Login Form</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+
+  <div id="notification-container"></div>
+  <main class="main-content">
+    <div class="wrapper">
+      <!-- Login Form -->
+      <form action="" id="login-form">
+          <h1>Login</h1>
+          <div class="input-box">
+              <input type="text" placeholder="Email ID" required id="login-email-input">
+              <i class='bx bxs-user'></i>
+          </div>
+          <div class="input-box">
+              <input type="password" placeholder="Password" required id="login-password-input">
+              <i class='bx bxs-lock-alt'></i>
+              <i class='bx bx-show password-toggle'></i>
+          </div>
+          <div class="remember-forgot">
+              <label><input type="checkbox">Remember me</label>
+              <a href="#" id="forgot-link">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn">Login</button>
+          <button type="button" class="btn" id="google-signin" style="margin-top: 10px;">Sign in with Google</button>
+          <div class="register-link">
+              <p>Don't have an account? <a href="#" id="register-link">Register</a></p>
+          </div>
+      </form>
+
+      <!-- Registration Form -->
+      <form action="" id="register-form" style="display: none;">
+          <h1>Register</h1>
+          <div class="input-box">
+              <input type="text" placeholder="Full Name" required id="register-full-name-input">
+              <i class='bx bxs-user'></i>
+          </div>
+          <div class="input-box">
+              <input type="email" placeholder="Email" required id="register-email-input">
+              <i class='bx bxs-envelope'></i>
+          </div>
+          <div class="input-box">
+              <input type="password" placeholder="Password" required id="register-password-input">
+              <i class='bx bxs-lock-alt'></i>
+              <i class='bx bx-show password-toggle'></i>
+          </div>
+          <button type="submit" class="btn">Register</button>
+          <div class="register-link">
+              <p>Already have an account? <a href="#" id="login-link-from-register">Login</a></p>
+          </div>
+      </form>
+
+      <!-- Forgot Password Form -->
+      <form action="" id="forgot-form" style="display: none;">
+          <h1>Reset Password</h1>
+          <div class="input-box">
+              <input type="email" placeholder="Enter your email" required>
+              <i class='bx bxs-envelope'></i>
+          </div>
+          <button type="submit" class="btn">Send Reset Link</button>
+          <div class="register-link">
+              <p>Remembered your password? <a href="#" id="login-link-from-forgot">Login</a></p>
+          </div>
+      </form>
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="script.js"></script>
+
+  <script>
+    async function loadIncludes() {
+      const headerResponse = await fetch('header.html');
+      document.getElementById('header-placeholder').innerHTML = await headerResponse.text();
+
+      const footerResponse = await fetch('footer.html');
+      document.getElementById('footer-placeholder').innerHTML = await footerResponse.text();
+
+      // Re-initialize scripts that depend on header/footer elements
+      // Toggle mobile menu
+      document.getElementById('hamburger').addEventListener('click', () => {
+        document.getElementById('nav-links').classList.toggle('show');
+      });
+
+      // Back to Top button logic
+      const backToTop = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTop.style.display = 'block';
+        } else {
+          backToTop.style.display = 'none';
+        }
+      });
+
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Highlight active nav link
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        if (link.href === window.location.href || window.location.href.includes(link.getAttribute('href'))) {
+          link.classList.add('active');
+        }
+      });
+
+      // Firebase Auth State Sync for Admin Panel (if applicable)
+      // This part was originally in index.html, so I'm putting it back here.
+      // Initialize Firebase (if not already initialized)
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+      const auth = firebase.auth();
+
+      const loginLink = document.getElementById('nav-login-link');
+      const logoutLink = document.getElementById('nav-logout-link');
+
+      // Function to update UI based on login status
+      function updateLoginStatusUI() {
+        auth.onAuthStateChanged(user => {
+          if (user) {
+            // User is signed in
+            loginLink.style.display = 'none';
+            logoutLink.style.display = 'block';
+          } else {
+            // User is signed out
+            loginLink.style.display = 'block';
+            logoutLink.style.display = 'none';
+          }
+        });
+      }
+
+      // Initial UI update
+      updateLoginStatusUI();
+
+      // Logout functionality
+      logoutLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        auth.signOut().then(() => {
+          console.log('User signed out successfully');
+          // Redirect to homepage or login page after logout
+          window.location.href = 'index.html';
+        }).catch((error) => {
+          console.error('Error signing out:', error);
+        });
+      });
+
+      initializeCommonScripts(); // Call the common scripts initializer
+    }
+    loadIncludes();
+  </script>
+
+  <script>
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+    // Check if user is already logged in
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            window.location.href = 'index.html'; // Redirect to index page if logged in
+        }
+    });
+
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const forgotForm = document.getElementById('forgot-form');
+
+    const registerLink = document.getElementById('register-link');
+    const forgotLink = document.getElementById('forgot-link');
+    const loginLinkFromRegister = document.getElementById('login-link-from-register');
+    const loginLinkFromForgot = document.getElementById('login-link-from-forgot');
+    const googleSignInButton = document.getElementById('google-signin');
+
+    // --- Form Switching Logic ---
+    registerLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+        forgotForm.style.display = 'none';
+    });
+
+    forgotLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'none';
+        forgotForm.style.display = 'block';
+    });
+
+    loginLinkFromRegister.addEventListener('click', (e) => {
+        e.preventDefault();
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'block';
+    });
+
+    loginLinkFromForgot.addEventListener('click', (e) => {
+        e.preventDefault();
+        forgotForm.style.display = 'none';
+        loginForm.style.display = 'block';
+    });
+
+    // --- Password Toggle Logic ---
+    const togglePasswordButtons = document.querySelectorAll('.password-toggle');
+    togglePasswordButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const passwordInput = button.previousElementSibling.previousElementSibling;
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                button.classList.remove('bx-show');
+                button.classList.add('bx-hide');
+            } else {
+                passwordInput.type = 'password';
+                button.classList.remove('bx-hide');
+                button.classList.add('bx-show');
+            }
+        });
+    });
+
+    // --- Firebase Authentication Logic ---
+
+    
+
+    // Register with Email/Password
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const fullName = document.getElementById('register-full-name-input').value;
+        const email = document.getElementById('register-email-input').value;
+        const password = document.getElementById('register-password-input').value;
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                console.log('Firebase Auth: User created successfully', user);
+                // Create user profile in Firestore
+                return db.collection('users').doc(user.uid).set({
+                    fullName: fullName,
+                    email: user.email,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            })
+            .then(() => {
+                console.log('Firestore: User profile saved successfully');
+                showNotification('Registration successful! Please login.', 'success');
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Registration Error:', error);
+                showNotification(`Registration Error: ${error.message}`, 'error');
+            });
+    });
+
+    // Login with Email/Password
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email-input').value;
+        const password = document.getElementById('login-password-input').value;
+
+        auth.signInWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                showNotification('Login successful!', 'success');
+                // Redirect to a protected page or dashboard
+                 window.location.href = 'index.html';
+            })
+            .catch(error => {
+                showNotification(`Login Error: ${error.message}`, 'error');
+            });
+    });
+
+    // Password Reset
+    forgotForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = forgotForm.querySelector('input[type="email"]').value;
+
+        auth.sendPasswordResetEmail(email)
+            .then(() => {
+                showNotification('Password reset email sent! Please check your inbox.', 'info');
+                forgotForm.style.display = 'none';
+                loginForm.style.display = 'block';
+            })
+            .catch(error => {
+                showNotification(`Password Reset Error: ${error.message}`, 'error');
+            });
+    });
+
+    // Google Sign-In
+    googleSignInButton.addEventListener('click', () => {
+        auth.signInWithPopup(googleProvider)
+            .then(result => {
+                const user = result.user;
+                // Check if user is new
+                if (result.additionalUserInfo.isNewUser) {
+                    // Create user profile in Firestore
+                    return db.collection('users').doc(user.uid).set({
+                        email: user.email,
+                        displayName: user.displayName,
+                        photoURL: user.photoURL,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+                return user;
+            })
+            .then(() => {
+                showNotification('Google Sign-in successful!', 'success');
+                 window.location.href = 'index.html';
+            })
+            .catch(error => {
+                showNotification(`Google Sign-in Error: ${error.message}`, 'error');
+            });
+    });
+
+</script>
+    
+<script>
+    // Notification function
+    function showNotification(message, type) {
+        const container = document.getElementById('notification-container');
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        container.appendChild(notification);
+
+        // Trigger the animation
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+
+        // Hide the notification after 3 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+            // Remove the element from the DOM after the animation
+            setTimeout(() => {
+                container.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Packages - Apni Holidays</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/favicon.png" />
+  <link rel="manifest" href="manifest.json" />
+  <!-- AOS Scroll Animation CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main>
+    <!-- Packages Section -->
+    <section class="packages" data-aos="fade-up">
+    <div class="container">
+      <h1>Our Holiday Packages</h1>
+      <div class="package-list" id="package-list">
+        <!-- Packages will be loaded here from JS -->
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script>
+    async function loadIncludes() {
+      const headerResponse = await fetch('header.html');
+      document.getElementById('header-placeholder').innerHTML = await headerResponse.text();
+
+      const footerResponse = await fetch('footer.html');
+      document.getElementById('footer-placeholder').innerHTML = await footerResponse.text();
+
+      // Re-initialize scripts that depend on header/footer elements
+      // Toggle mobile menu
+      document.getElementById('hamburger').addEventListener('click', () => {
+        document.getElementById('nav-links').classList.toggle('show');
+      });
+
+      // Back to Top button logic
+      const backToTop = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTop.style.display = 'block';
+        } else {
+          backToTop.style.display = 'none';
+        }
+      });
+
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Highlight active nav link
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        if (link.href === window.location.href || window.location.href.includes(link.getAttribute('href'))) {
+          link.classList.add('active');
+        }
+      });
+
+      // Initialize Firebase (if not already initialized)
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+      const db = firebase.firestore();
+
+      // Load packages from Firestore
+      const container = document.getElementById('package-list');
+      if (container) {
+        db.collection('packages').get().then((querySnapshot) => {
+          if (querySnapshot.empty) {
+            container.innerHTML = '<p>No packages found.</p>';
+            return;
+          }
+          querySnapshot.forEach((doc) => {
+            const pkg = doc.data();
+            const card = document.createElement('div');
+            card.classList.add('package-card');
+            card.setAttribute('data-aos', 'fade-up');
+            card.innerHTML = `
+              <img src="${pkg.image}" alt="${pkg.title}" onerror="this.src='assets/fallback.jpg';" />
+              <div class="content">
+                <h3>${pkg.title}</h3>
+                <p>${pkg.description}</p>
+                <div class="price">₹${pkg.price}</div>
+              </div>
+            `;
+            container.appendChild(card);
+          });
+        }).catch((error) => {
+          console.error("Error getting documents: ", error);
+          container.innerHTML = '<p>Failed to load packages.</p>';
+        });
+      }
+
+      AOS.init();
+      initializeCommonScripts(); // Call the common scripts initializer
+    }
+    loadIncludes();
+  </script>
+</body>
+</html>
